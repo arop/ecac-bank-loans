@@ -49,4 +49,4 @@ all_dataset <- merge(all_dataset_without_account_district, district, by.x = c("d
 #remove useless ids
 final_dataset <- subset(all_dataset, select = -c(district_id_account,client_id,account_id,disp_id,district_id))
 
-write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_03.csv", row.names = FALSE)
+write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_04.csv", row.names = FALSE)
