@@ -27,7 +27,7 @@ colnames(account_disp_trans_loans_test)[18] <- "date_loan"
 colnames(account_disp_trans_loans_test)[19] <- "ammount_loan"
 
 account_balances <- account_disp_trans_loans_test %>% group_by(account_id) %>% slice(date_trans < date_loan && which.max(date_trans))
-sd_balance <- aggregate(trans_test[,"balance"], list(account_id = trans_test$account_id), sd)
+sd_balance <- aggregate(trans_test[,"balance"], list(account_id=trans_test$account_id), sd)
 sd_balance <- subset(sd_balance, select = c("account_id","balance"))
 colnames(sd_balance)[2] <- "balance_sd"
 
@@ -41,4 +41,12 @@ account_balances_sd_cards <- subset(account_balances_sd_cards, select = -c(card_
 account_balances_sd_cards_clients <- merge(account_balances_sd_cards, new_client)
 account_balances_sd_cards_clients <- subset(account_balances_sd_cards_clients, select = -district_id)
 
-write.csv(account_balances_sd_cards_clients, file = "C:\\Users\\andre\\Dropbox\\Universidade\\UC\\5º Ano\\ECAC\\Projeto\\test_02.csv", row.names = FALSE)
+colnames(account_balances_sd_cards)[3] <- "district_id_account"
+
+all_dataset_without_account_district <- merge(account_balances_sd_cards, client_district)  
+all_dataset <- merge(all_dataset_without_account_district, district, by.x = c("district_id_account"), by.y = c("code"), suffixes = c("_client","_account"))
+
+#remove useless ids
+final_dataset <- subset(all_dataset, select = -c(district_id_account,client_id,account_id,disp_id,district_id))
+
+write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\test_03.csv", row.names = FALSE)

@@ -41,4 +41,12 @@ account_balances_sd_cards <- subset(account_balances_sd_cards, select = -c(card_
 account_balances_sd_cards_clients <- merge(account_balances_sd_cards, new_client)
 account_balances_sd_cards_clients <- subset(account_balances_sd_cards_clients, select = -district_id)
 
-write.csv(account_balances_sd_cards_clients, file = "C:\\Users\\andre\\Dropbox\\Universidade\\UC\\5º Ano\\ECAC\\Projeto\\train_02.csv", row.names = FALSE)
+colnames(account_balances_sd_cards)[3] <- "district_id_account"
+
+all_dataset_without_account_district <- merge(account_balances_sd_cards, client_district)  
+all_dataset <- merge(all_dataset_without_account_district, district, by.x = c("district_id_account"), by.y = c("code"), suffixes = c("_client","_account"))
+
+#remove useless ids
+final_dataset <- subset(all_dataset, select = -c(district_id_account,client_id,account_id,disp_id,district_id))
+
+write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_03.csv", row.names = FALSE)
