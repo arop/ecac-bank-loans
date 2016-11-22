@@ -34,7 +34,7 @@ colnames(account_balances_sd_cards)[2] <- "district_id_account"
 all_dataset_without_account_district <- merge(account_balances_sd_cards, client_district)
 
 #remove useless ids
-final_dataset <- subset(all_dataset_without_account_district, select = -c(district_id_account,client_id,account_id,disp_id,district_id))
+final_dataset <- subset(all_dataset_without_account_district, select = -c(district_id_account,client_id,account_id,disp_id,district_id, date_account))
 
 final_dataset$type_card[is.na(final_dataset$type_card)] <- 0
 
