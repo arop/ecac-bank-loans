@@ -1,3 +1,5 @@
+library(dplyr)
+
 #################################
 ## FILTER DATASETS ##############
 # transform strings to int
@@ -56,6 +58,9 @@ district$`unemploymant rate '95`[missing_un_95] <- district$`unemploymant rate '
 missing_crimes_95 <- (district$`no. of commited crimes '95`) == "?"
 district$`no. of commited crimes '95`[missing_crimes_95] <- district$`no. of commited crimes '96`[missing_crimes_95]
 
+district$`unemploymant rate '95` <- as.numeric(district$`unemploymant rate '95`)
+district$`no. of commited crimes '95` <- as.numeric(district$`no. of commited crimes '95`)
+
 #get women
 women <- client %>% filter( ((birth_number / 100) %% 100) > 50)
 men <- client %>% filter( ((birth_number / 100) %% 100) < 50)
@@ -65,6 +70,9 @@ women["birth_number"] <- women$birth_number - 5000
 #set gender
 women[,"gender"] <- 0
 men[,"gender"] <- 1
+
+client <- rbind(women,men)
+client <- client[ with(client, order(client_id)),]
 
 ## /FILTER DATASETS #############
 #################################
