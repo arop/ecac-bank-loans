@@ -31,8 +31,8 @@ client_district <- merge(client, district, by.x = "district_id", by.y = "code")
 client_district <- subset(client_district, select = - district_id)
 
 #account
-disp <- disp %>% slice(which (type == 1))
-account_disp <- merge(account, disp)
+new_disp <- disp %>% slice(which (type == 2)) #remove disponent
+account_disp <- merge(account, new_disp)
 account_disp <- subset(account_disp, select = c("account_id","client_id"))
 
 account_client <- merge(client_district,account_disp)
