@@ -31,6 +31,7 @@ client_district <- merge(client, district, by.x = "district_id", by.y = "code")
 client_district <- subset(client_district, select = - district_id)
 
 #account
+disp <- disp %>% slice(which (type == 1))
 account_disp <- merge(account, disp)
 account_disp <- subset(account_disp, select = c("account_id","client_id"))
 
@@ -38,6 +39,8 @@ account_client <- merge(client_district,account_disp)
 
 #final
 final_dataset <- merge(loans_household, account_client)
-final_dataset <- subset(final_dataset, select = -c(client_id,account_id))
+final_dataset <- subset(final_dataset, select = -c(client_id,account_id,date))
+
+colnames(final_dataset)[1] <- "Id"
 
 write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\test_07.csv", row.names = FALSE)
