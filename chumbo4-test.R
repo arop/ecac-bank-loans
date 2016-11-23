@@ -22,7 +22,6 @@ loans_household <- left_join(loan_test, account_household)
 loans_household$household_amount[is.na(loans_household$household_amount)] <- 0
 
 #clients
-client[,"birth_year"] <- as.numeric(format(client$birth_number,'%Y'))
 client <- subset(client, select = - birth_number)
 
 district <- subset(district, select = c("code","region","no. of inhabitants","ratio of urban inhabitants","average salary", "diff_unemploymant","diff_crimes"))

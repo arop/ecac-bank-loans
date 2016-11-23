@@ -17,6 +17,7 @@ card_train$issued <- as.Date(as.character(card_train$issued + 19000000), "%Y%m%d
 
 #client
 client$birth_number <- as.Date(as.character(client$birth_number + 19000000), "%Y%m%d")
+client[,"birth_year"] <- as.numeric(format(client$birth_number,'%Y'))
 
 #loan
 loan_test$date <- as.Date(as.character(loan_test$date + 19000000), "%Y%m%d")
