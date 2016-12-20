@@ -1,10 +1,13 @@
 
 # districts
 district[,"diff_unemploymant"] <- district[,"unemploymant rate '96"] - district[,"unemploymant rate '95"]
+district[,"avg_unemploymant"] <- (district[,"unemploymant rate '96"] + district[,"unemploymant rate '95"])/2
 
 district <- subset(district, select = -c(`unemploymant rate '95`, `unemploymant rate '96`))
 
 district[,"diff_crimes"] <- district[,"no. of commited crimes '96"] - district[,"no. of commited crimes '95"]
+district[,"avg_crimes"] <- (district[,"no. of commited crimes '96"] + district[,"no. of commited crimes '95"])/2
+district[,"ratio_crimes"] <- district[,"avg_crimes"]/district[,"no. of inhabitants"]
 
 district <- subset(district, select = -c(`no. of commited crimes '95`, `no. of commited crimes '96`))
 

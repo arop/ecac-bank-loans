@@ -32,10 +32,19 @@ account_balances_sd_cards_clients <- subset(account_balances_sd_cards_clients, s
 colnames(account_balances_sd_cards)[2] <- "district_id_account"
 
 all_dataset_without_account_district <- merge(account_balances_sd_cards, client_district)
+all_dataset <- merge(account_balances_sd_cards_clients, client_district)
+
+#household
+account_household <- trans_train %>% slice(which(k_symbol == 1))
+account_household <- aggregate(account_household[,"amount"], list(account_id = account_household$account_id), mean)
+colnames(account_household)[2] <- "household_amount"
+
+pre_final_dataset <- left_join(all_dataset_without_account_district,account_household)
 
 #remove useless ids
-final_dataset <- subset(all_dataset_without_account_district, select = -c(district_id_account,client_id,account_id,disp_id,district_id, date_account))
+final_dataset <- subset(pre_final_dataset, select = -c(district_id_account,client_id,account_id,disp_id,district_id, date_account))
 
 final_dataset$type_card[is.na(final_dataset$type_card)] <- 0
+final_dataset$household_amount[is.na(final_dataset$household_amount)] <- 0
 
-write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_06.csv", row.names = FALSE)
+write.csv(final_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_09.csv", row.names = FALSE)
