@@ -11,6 +11,8 @@ district[,"ratio_crimes"] <- district[,"avg_crimes"]/district[,"no. of inhabitan
 
 district <- subset(district, select = -c(`no. of commited crimes '95`, `no. of commited crimes '96`))
 
+district <- subset(district, select = -c(`no. of municipalities with inhabitants < 499`,`no. of municipalities with inhabitants 500-1999`,`no. of municipalities with inhabitants 2000-9999`,`no. of municipalities with inhabitants >10000`,`no. of cities`))
+
 #account
 account$date <- as.Date(as.character(account$date + 19000000), "%Y%m%d")
 
@@ -20,7 +22,6 @@ card_train$issued <- as.Date(as.character(card_train$issued + 19000000), "%Y%m%d
 
 #client
 client$birth_number <- as.Date(as.character(client$birth_number + 19000000), "%Y%m%d")
-client[,"birth_year"] <- as.numeric(format(client$birth_number,'%Y'))
 
 #loan
 loan_test$date <- as.Date(as.character(loan_test$date + 19000000), "%Y%m%d")
