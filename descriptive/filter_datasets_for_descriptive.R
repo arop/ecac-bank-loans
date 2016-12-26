@@ -1,3 +1,5 @@
+library(dplyr)
+
 #get women
 women <- client %>% filter( ((birth_number / 100) %% 100) > 50)
 men <- client %>% filter( ((birth_number / 100) %% 100) < 50)
