@@ -49,7 +49,7 @@ colnames(loan_test)[23] <- "type_card"
 loan_train$type_card[is.na(loan_train$type_card)] <- 0
 
 
-#write to file
+#write to fvile
 colnames(loan_train)[3] <- "Id"
 colnames(loan_train)[7] <- "Predicted"
 write.csv(loan_train, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_12.csv", row.names = FALSE)
