@@ -31,10 +31,28 @@ loan_test$household_amount[is.na(loan_test$household_amount)] <- 0
 loan_train <- merge(loan_train, district, by.x="district_id", by.y="code", all.x = TRUE)
 loan_test <- merge(loan_test, district, by.x="district_id", by.y="code", all.x = TRUE)
 
+##############################################################################
+
+#join cards
+card_account_train <- merge(card_train, by.x="disp_id", by.y="disp_id", disp, all.x = TRUE)
+card_account_test <- merge(card_test, disp, by.x="disp_id", by.y="disp_id", all.x = TRUE)
+
+card_account_train <- subset(card_account_train, select = -c(`type.x`, disp_id, card_id, client_id, issued))
+card_account_test <- subset(card_account_test, select = -c(`type.x`, disp_id, card_id, client_id, issued))
+
+loan_train <- merge(loan_train, card_account_train, all.x = TRUE)
+loan_test <- merge(loan_test, card_account_test, all.x = TRUE)
+
+colnames(loan_train)[23] <- "type_card"
+colnames(loan_test)[23] <- "type_card"
+
+loan_train$type_card[is.na(loan_train$type_card)] <- 0
+
+
 #write to file
-colnames(loan_train)[2] <- "Id"
-colnames(loan_train)[6] <- "Predicted"
-write.csv(loan_train, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_11.csv", row.names = FALSE)
-colnames(loan_test)[2] <- "Id"
-colnames(loan_test)[6] <- "Predicted"
-write.csv(loan_test, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\test_11.csv", row.names = FALSE)
+colnames(loan_train)[3] <- "Id"
+colnames(loan_train)[7] <- "Predicted"
+write.csv(loan_train, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\train_12.csv", row.names = FALSE)
+colnames(loan_test)[3] <- "Id"
+colnames(loan_test)[7] <- "Predicted"
+write.csv(loan_test, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\test_12.csv", row.names = FALSE)
