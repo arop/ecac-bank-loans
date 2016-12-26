@@ -47,6 +47,7 @@ colnames(loan_train)[23] <- "type_card"
 colnames(loan_test)[23] <- "type_card"
 
 loan_train$type_card[is.na(loan_train$type_card)] <- 0
+loan_test$type_card[is.na(loan_test$type_card)] <- 0
 
 
 #write to fvile
