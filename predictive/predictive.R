@@ -83,13 +83,39 @@ account_temp <- subset(account, select = c(account_id, frequency))
 loan_train <- merge(loan_train, account_temp, all.x = TRUE)  
 loan_test <- merge(loan_test, account_temp, all.x = TRUE)  
 
+
+##### balances
+
+# sd balance
+sd_balance <- aggregate(trans_train[,"balance"], list(account_id = trans_train$account_id), sd)
+sd_balance_test <- aggregate(trans_test[,"balance"], list(account_id = trans_test$account_id), sd)
+
+colnames(sd_balance)[2] <- "balance_sd"
+colnames(sd_balance_test)[2] <- "balance_sd"
+
+#avg balance
+avg_balance <- aggregate(trans_train[,"balance"], list(account_id = trans_train$account_id), mean)
+avg_balance_test <- aggregate(trans_test[,"balance"], list(account_id = trans_test$account_id), mean)
+
+colnames(avg_balance)[2] <- "balance_avg"
+colnames(avg_balance_test)[2] <- "balance_avg"
+
+loan_train <- merge(loan_train, sd_balance, all.x = TRUE)
+loan_test <- merge(loan_test, sd_balance_test, all.x = TRUE)
+
+loan_train <- merge(loan_train, avg_balance, all.x = TRUE)
+loan_test <- merge(loan_test, avg_balance_test, all.x = TRUE)
+
+############################
+
 loan_train <- subset(loan_train, select = -c(client_id, account_id, name))
 loan_test <- subset(loan_test, select = -c(client_id, account_id, name))
 
+
 #write to fvile
-colnames(loan_train)[2] <- "Id"
-colnames(loan_train)[6] <- "Predicted"
-write.csv(loan_train, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\train_14.csv", row.names = FALSE)
-colnames(loan_test)[2] <- "Id"
-colnames(loan_test)[6] <- "Predicted"
-write.csv(loan_test, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\test_14.csv", row.names = FALSE)
+colnames(loan_train)[3] <- "Id"
+colnames(loan_train)[7] <- "Predicted"
+write.csv(loan_train, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\train_16.csv", row.names = FALSE)
+colnames(loan_test)[3] <- "Id"
+colnames(loan_test)[7] <- "Predicted"
+write.csv(loan_test, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\test_16.csv", row.names = FALSE)
