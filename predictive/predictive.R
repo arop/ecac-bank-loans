@@ -106,6 +106,19 @@ loan_test <- merge(loan_test, sd_balance_test, all.x = TRUE)
 loan_train <- merge(loan_train, avg_balance, all.x = TRUE)
 loan_test <- merge(loan_test, avg_balance_test, all.x = TRUE)
 
+#### count transactions
+transaction_count <- aggregate(trans_train, list(account_id = trans_train$account_id), length)
+transaction_count_test <- aggregate(trans_test, list(account_id = trans_test$account_id), length)
+
+transaction_count <- subset(transaction_count, select = c(account_id, operation))
+transaction_count_test <- subset(transaction_count_test, select = c(account_id, operation))
+
+colnames(transaction_count)[2] <- "transaction_count"
+colnames(transaction_count_test)[2] <- "transaction_count"
+
+loan_train <- merge(loan_train, transaction_count, all.x = TRUE)
+loan_test <- merge(loan_test, transaction_count_test, all.x = TRUE)
+
 ############################
 
 loan_train <- subset(loan_train, select = -c(client_id, account_id, name))
@@ -113,9 +126,9 @@ loan_test <- subset(loan_test, select = -c(client_id, account_id, name))
 
 
 #write to fvile
-colnames(loan_train)[3] <- "Id"
-colnames(loan_train)[7] <- "Predicted"
-write.csv(loan_train, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\train_16.csv", row.names = FALSE)
-colnames(loan_test)[3] <- "Id"
-colnames(loan_test)[7] <- "Predicted"
-write.csv(loan_test, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\test_16.csv", row.names = FALSE)
+colnames(loan_train)[4] <- "Id"
+colnames(loan_train)[8] <- "Predicted"
+write.csv(loan_train, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\train_17.csv", row.names = FALSE)
+colnames(loan_test)[4] <- "Id"
+colnames(loan_test)[8] <- "Predicted"
+write.csv(loan_test, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\test_17.csv", row.names = FALSE)
