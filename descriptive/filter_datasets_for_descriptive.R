@@ -22,7 +22,8 @@ client_district <- merge(client, district, by.x = "district_id", by.y = "code")
 account_balances <- trans_train %>% group_by(account_id) %>% slice(which.max(date))
 account_balances <- subset(account_balances, select = c(account_id, balance, date))
 
-account_household <- trans_train %>% slice(which(k_symbol == "household"))
+#account_household <- trans_train %>% slice(which(k_symbol == "household"))
+account_household <- trans_train %>% slice(which(k_symbol == 1))
 account_household <- aggregate(account_household[,"amount"], list(account_id = account_household$account_id), mean)
 colnames(account_household)[2] <- "household_amount"
 
