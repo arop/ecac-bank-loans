@@ -13,7 +13,6 @@ men[,"gender"] <- 1
 client <- rbind(women,men)
 client <- client[ with(client, order(client_id)),]
 
-
 #client
 client$birth_number <- as.Date(as.character(client$birth_number + 19000000), "%Y%m%d")
 client[,"birth_year"] <- as.numeric(format(client$birth_number,'%Y'))
@@ -28,3 +27,15 @@ account_household <- aggregate(account_household[,"amount"], list(account_id = a
 colnames(account_household)[2] <- "household_amount"
 
 account_household <- merge(account, account_household, by = "account_id", all.x = TRUE)
+
+#############################################
+client_district <- subset(client_district, select = c(client_id, birth_number,gender,birth_year,name,region,`no. of inhabitants`))
+
+account_client <- merge(disp, account)
+account_client <- merge(account_client, client_district)
+account_client <- subset(account_client, select = -c(frequency,type,disp_id,district_id))
+
+descriptive_dataset <- merge(account_client, account_household)
+descriptive_dataset <- subset(descriptive_dataset, select = -c(district_id,date,birth_year))
+
+write.csv(descriptive_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\descriptive.csv", row.names = FALSE)
