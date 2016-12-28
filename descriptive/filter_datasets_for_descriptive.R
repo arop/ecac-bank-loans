@@ -30,7 +30,7 @@ colnames(account_household)[2] <- "household_amount"
 account_household <- merge(account, account_household, by = "account_id", all.x = TRUE)
 
 #############################################
-client_district <- subset(client_district, select = c(client_id, birth_number,gender,birth_year,name,region,`no. of inhabitants`))
+client_district <- subset(client_district, select = c(client_id, birth_year, birth_number,gender,birth_year,name,region,`no. of inhabitants`))
 
 account_client <- merge(disp, account)
 account_client <- merge(account_client, client_district)
@@ -39,4 +39,33 @@ account_client <- subset(account_client, select = -c(frequency,type,disp_id,dist
 descriptive_dataset <- merge(account_client, account_household)
 descriptive_dataset <- subset(descriptive_dataset, select = -c(district_id,date,birth_year))
 
-write.csv(descriptive_dataset, file = "C:\\Users\\andre\\Documents\\GitHub\\ecac-bank-loans\\datasets\\descriptive.csv", row.names = FALSE)
+
+##########################################
+
+
+# sd balance
+sd_balance <- aggregate(trans_train[,"balance"], list(account_id = trans_train$account_id), sd)
+sd_balance_test <- aggregate(trans_test[,"balance"], list(account_id = trans_test$account_id), sd)
+
+colnames(sd_balance)[2] <- "balance_sd"
+colnames(sd_balance_test)[2] <- "balance_sd"
+
+sd_balance_all <- merge(x = sd_balance, y = sd_balance_test, all = TRUE)
+
+descriptive_dataset <- merge(descriptive_dataset, sd_balance_all, all.x=TRUE)
+
+#avg balance
+avg_balance <- aggregate(trans_train[,"balance"], list(account_id = trans_train$account_id), mean)
+avg_balance_test <- aggregate(trans_test[,"balance"], list(account_id = trans_test$account_id), mean)
+
+colnames(avg_balance)[2] <- "balance_avg"
+colnames(avg_balance_test)[2] <- "balance_avg"
+
+avg_balance_all <- merge(x = avg_balance, y = avg_balance_test, all = TRUE)
+
+descriptive_dataset <- merge(descriptive_dataset, avg_balance_all, all.x=TRUE)
+
+
+
+
+write.csv(descriptive_dataset, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\descriptive_01_avg_sd_balance.csv", row.names = FALSE)
