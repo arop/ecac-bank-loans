@@ -22,8 +22,8 @@ client_district <- merge(client, district, by.x = "district_id", by.y = "code")
 account_balances <- trans_train %>% group_by(account_id) %>% slice(which.max(date))
 account_balances <- subset(account_balances, select = c(account_id, balance, date))
 
-#account_household <- trans_train %>% slice(which(k_symbol == "household"))
-account_household <- trans_train %>% slice(which(k_symbol == 1))
+account_household <- trans_train %>% slice(which(k_symbol == "household"))
+#account_household <- trans_train %>% slice(which(k_symbol == 1))
 account_household <- aggregate(account_household[,"amount"], list(account_id = account_household$account_id), mean)
 colnames(account_household)[2] <- "household_amount"
 
@@ -37,7 +37,7 @@ account_client <- merge(account_client, client_district)
 account_client <- subset(account_client, select = -c(frequency,type,disp_id,district_id))
 
 descriptive_dataset <- merge(account_client, account_household)
-descriptive_dataset <- subset(descriptive_dataset, select = -c(district_id,date,birth_year))
+descriptive_dataset <- subset(descriptive_dataset, select = -c(district_id,date))
 
 
 ##########################################
@@ -65,7 +65,21 @@ avg_balance_all <- merge(x = avg_balance, y = avg_balance_test, all = TRUE)
 
 descriptive_dataset <- merge(descriptive_dataset, avg_balance_all, all.x=TRUE)
 
+# transaction count
+transaction_count <- aggregate(trans_train, list(account_id = trans_train$account_id), length)
+transaction_count_test <- aggregate(trans_test, list(account_id = trans_test$account_id), length)
+
+transaction_count <- subset(transaction_count, select = c(account_id, operation))
+transaction_count_test <- subset(transaction_count_test, select = c(account_id, operation))
+
+colnames(transaction_count)[2] <- "transaction_count"
+colnames(transaction_count_test)[2] <- "transaction_count"
+
+transaction_count_all <- merge(x = transaction_count, y = transaction_count_test, all = TRUE)
+
+descriptive_dataset <- merge(descriptive_dataset, transaction_count_all, all.x=TRUE)
+
+descriptive_dataset <- subset(descriptive_dataset, select = -c(account_id))
 
 
-
-write.csv(descriptive_dataset, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\descriptive_01_avg_sd_balance.csv", row.names = FALSE)
+write.csv(descriptive_dataset, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\descriptive_02_transaction_count.csv", row.names = FALSE)
