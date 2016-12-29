@@ -1,5 +1,16 @@
 library(dplyr)
 
+#set missing values
+missing_un_95 <- (district$`unemploymant rate '95`) == "?"
+district$`unemploymant rate '95`[missing_un_95] <- district$`unemploymant rate '96`[missing_un_95]
+
+missing_crimes_95 <- (district$`no. of commited crimes '95`) == "?"
+district$`no. of commited crimes '95`[missing_crimes_95] <- district$`no. of commited crimes '96`[missing_crimes_95]
+
+district$`unemploymant rate '95` <- as.numeric(district$`unemploymant rate '95`)
+district$`no. of commited crimes '95` <- as.numeric(district$`no. of commited crimes '95`)
+
+
 #get women
 women <- client %>% filter( ((birth_number / 100) %% 100) > 50)
 men <- client %>% filter( ((birth_number / 100) %% 100) < 50)
