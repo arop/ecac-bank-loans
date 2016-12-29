@@ -30,7 +30,8 @@ colnames(account_household)[2] <- "household_amount"
 account_household <- merge(account, account_household, by = "account_id", all.x = TRUE)
 
 #############################################
-client_district <- subset(client_district, select = c(client_id, birth_year, birth_number,gender,birth_year,name,region,`no. of inhabitants`))
+#client_district <- subset(client_district, select = c(client_id, birth_year, birth_number,gender,birth_year,name,region,`no. of inhabitants`))
+client_district <- subset(client_district, select = -c(district_id))
 
 account_client <- merge(disp, account)
 account_client <- merge(account_client, client_district)
@@ -82,4 +83,4 @@ descriptive_dataset <- merge(descriptive_dataset, transaction_count_all, all.x=T
 descriptive_dataset <- subset(descriptive_dataset, select = -c(account_id))
 
 
-write.csv(descriptive_dataset, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\descriptive_02_transaction_count.csv", row.names = FALSE)
+write.csv(descriptive_dataset, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\descriptive_03_full_district.csv", row.names = FALSE)
