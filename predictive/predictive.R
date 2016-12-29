@@ -126,9 +126,9 @@ loan_test <- subset(loan_test, select = -c(client_id, account_id, name))
 
 
 #write to fvile
-colnames(loan_train)[4] <- "Id"
-colnames(loan_train)[8] <- "Predicted"
+colnames(loan_train)[3] <- "Id"
+colnames(loan_train)[7] <- "Predicted"
 write.csv(loan_train, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\train_18.csv", row.names = FALSE)
-colnames(loan_test)[4] <- "Id"
-colnames(loan_test)[8] <- "Predicted"
+colnames(loan_test)[3] <- "Id"
+colnames(loan_test)[7] <- "Predicted"
 write.csv(loan_test, file = "C:\\Repositories\\ecac-bank-loans\\datasets\\test_18.csv", row.names = FALSE)
