@@ -1,0 +1,73 @@
+weight by relief - w/ normalize
+select by weights - >= 0.02
+x-validation
+	deep learning
+		expRectifier
+		layers - 25/15
+		epochs - 50
+		compute variables importances
+		early stopping
+	performance
+		AUC - 78%
+		accuracy - 86%
+		
+		
+		
+1- 
+weight by relief - w/ normalize
+select by weights - >= 0.02
+x-validation (10 folds)
+	deep learning
+		tanh
+		layers - 25/15
+		epochs - 70
+		compute variables importances
+		early stopping
+	performance
+		AUC - 78%
+		accuracy - 85%
+		
+2-
+weight by relief - w/ normalize
+select by weights - >= 0.02
+x-validation (15 folds)
+	deep learning
+		tanh
+		layers - 25/15
+		epochs - 70
+		compute variables importances
+		rho - 0.995
+		early stopping
+	performance
+		AUC - 79.4%
+		accuracy - 84.4%
+
+3-
+weight by relief - w/ normalize
+select by weights - >= 0.02
+x-validation (15 folds)
+	deep learning
+		tanh
+		layers - 25/15
+		epochs - 80
+		compute variables importances
+		rho - 0.995
+		early stopping
+	performance
+		AUC - 81%
+		accuracy - 86%
+
+4-	TO SUBMIT	
+weight by relief - w/ normalize
+select by weights - >= 0.02
+x-validation (15 folds)
+	deep learning
+		expRectifier w/ dropout - 0.5/0.5
+		layers - 25/15
+		epochs - 80
+		compute variables importances
+		rho - 0.995
+		early stopping
+	performance
+		AUC - 84%
+		accuracy - 85%
