@@ -43,8 +43,8 @@ card_account_test <- subset(card_account_test, select = -c(`type.x`, disp_id, ca
 loan_train <- merge(loan_train, card_account_train, all.x = TRUE)
 loan_test <- merge(loan_test, card_account_test, all.x = TRUE)
 
-colnames(loan_train)[23] <- "type_card"
-colnames(loan_test)[23] <- "type_card"
+colnames(loan_train)[27] <- "type_card"
+colnames(loan_test)[27] <- "type_card"
 
 loan_train$type_card[is.na(loan_train$type_card)] <- 0
 loan_test$type_card[is.na(loan_test$type_card)] <- 0
